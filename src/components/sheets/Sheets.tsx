@@ -13,6 +13,7 @@ import { EditTagSheet } from "./EditTagSheet";
 import { MoveGemsSheet } from "./MoveGemsSheet";
 import { NewTagSheet } from "./NewTagSheet";
 import { SortSheet } from "./SortSheet";
+import { EditProfileSheet } from "./EditProfileSheet";
 import { GemLightbox } from "@/components/gems/GemLightbox";
 
 /**
@@ -51,6 +52,9 @@ export function Sheets() {
         {sheet === "new-tag" ? <NewTagSheet key="new-tag" /> : null}
         {sheet === "edit-tag" ? <EditTagSheet key="edit-tag" /> : null}
         {sheet === "delete-tag" ? <DeleteTagSheet key="delete-tag" /> : null}
+        {sheet === "edit-profile" ? (
+          <EditProfileSheet key="edit-profile" />
+        ) : null}
         {sheet === "edit-gem-tags" ? (
           <EditGemTagsSheet key="edit-gem-tags" />
         ) : null}
