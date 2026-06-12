@@ -1,26 +1,85 @@
 @import "tailwindcss";
 
+@theme {
+  /* Warm dark — slight amber undertone so the teal reads as
+     water-against-warm-rock, not steel-on-steel. */
+  --color-bg: #0d0c0a;
+  --color-surface: #181613;
+  --color-surface-2: #211e1a;
+  --color-surface-3: #2c2823;
+  --color-border: rgba(255, 244, 224, 0.08);
+  --color-border-strong: rgba(255, 244, 224, 0.14);
+  --color-text: #f5f3ef;
+  --color-text-muted: #9c978d;
+  --color-text-subtle: #6f6a61;
+
+  /* Deep teal — primary accent: active states, CTAs, focus rings. */
+  --color-accent: #0d9488;
+  --color-accent-strong: #14b8a6;
+  --color-accent-soft: rgba(13, 148, 136, 0.18);
+
+  /* Soft gold — sparing secondary highlight (create CTA, select active). */
+  --color-gold: #e8c268;
+  --color-gold-strong: #f2d488;
+  --color-gold-soft: rgba(232, 194, 104, 0.16);
+
+  --color-danger: #ff5e57;
+
+  --radius-card: 16px;
+  --radius-sheet: 24px;
+  --radius-chip: 999px;
+
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+    "Helvetica Neue", "Inter", system-ui, sans-serif;
+  --font-mono:
+    ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: dark;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior-y: none;
+  letter-spacing: -0.01em;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100dvh;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+* {
+  -webkit-overflow-scrolling: touch;
+}
+
+h1,
+h2,
+h3 {
+  letter-spacing: -0.025em;
+  font-weight: 700;
+}
+
+@utility surface-blur {
+  background: color-mix(in oklab, var(--color-bg) 88%, transparent);
+  backdrop-filter: saturate(180%) blur(36px);
+  -webkit-backdrop-filter: saturate(180%) blur(36px);
+}
+
+/* Hair snappier than Mood's 120ms — pointer precision is higher on desktop. */
+@utility tappable {
+  transition: transform 100ms ease, opacity 100ms ease;
+}
+.tappable:active {
+  transform: scale(0.98);
+  opacity: 0.85;
 }
