@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useSetGemList } from "@/components/gems/GemListContext";
 import { GemMasonry } from "@/components/gems/GemMasonry";
+import { SortableGemMasonry } from "@/components/gems/SortableGemMasonry";
 import { TagFilter } from "@/components/ui/TagFilter";
 import {
   GemsEmptyIcon,
@@ -68,8 +69,11 @@ export function TroveBody({
           description="try a different tag or clear the filter to see everything in this trove."
           action={{ label: "clear filter", href: pathname }}
         />
-      ) : (
+      ) : tagId ? (
+        // A filtered subset can't define a full order — plain masonry.
         <GemMasonry gems={filtered} />
+      ) : (
+        <SortableGemMasonry troveId={troveId} gems={filtered} />
       )}
     </>
   );
