@@ -46,3 +46,7 @@ next-env.d.ts
 
 # env example is committed
 !.env.local.example
+
+# serwist build output
+public/sw.js
+public/swe-worker*.js
