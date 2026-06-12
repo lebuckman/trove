@@ -11,7 +11,7 @@ export function PageHeader({
   title: string;
   /** Small line directly under the title (e.g. "6 collections"). */
   subtitle?: string;
-  /** Longer paragraph under the title (e.g. board description). */
+  /** Longer paragraph under the title (e.g. trove description). */
   description?: string;
   /** Rendered to the right of the title on the same row. */
   inlineAction?: React.ReactNode;

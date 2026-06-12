@@ -75,7 +75,7 @@ h3 {
   -webkit-backdrop-filter: saturate(180%) blur(36px);
 }
 
-/* Hair snappier than Mood's 120ms — pointer precision is higher on desktop. */
+/* Snappy tap feedback; desktop pointer precision tolerates a fast ease. */
 @utility tappable {
   transition: transform 100ms ease, opacity 100ms ease;
 }

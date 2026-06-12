@@ -85,5 +85,6 @@ function alphaKey(g: Gem): string {
 export function scopeForPathname(pathname: string): string {
   const m = pathname.match(/^\/troves\/([^/]+)/);
   if (m) return `trove/${m[1]}`;
+  if (pathname.startsWith("/profile")) return "troves";
   return "home";
 }

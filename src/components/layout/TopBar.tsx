@@ -2,7 +2,7 @@ import Link from "next/link";
 
 /**
  * Slim sticky chrome bar shown above the page. Usually only on detail
- * pages — top-level tabs (boards, search) skip this and let their
+ * pages — top-level tabs (home, profile) skip this and let their
  * PageHeader sit right at the top.
  */
 export function TopBar({
