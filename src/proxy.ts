@@ -3,6 +3,8 @@ import { createServerClient } from "@supabase/ssr";
 
 // Routes reachable without a session.
 const PUBLIC_PATHS = ["/signin", "/auth", "/offline"];
+// Dev-only UI playground (no data access — RLS returns nothing anyway).
+if (process.env.NODE_ENV === "development") PUBLIC_PATHS.push("/dev-shell");
 
 function isPublic(pathname: string): boolean {
   return PUBLIC_PATHS.some(
