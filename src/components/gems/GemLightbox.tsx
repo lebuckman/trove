@@ -252,18 +252,31 @@ export function GemLightbox({ gemId }: { gemId: string }) {
             />
           </div>
 
-          {/* Mobile: detail panel docked at the bottom. */}
+          {/* Mobile: detail panel docked at the bottom. Keyed by gem id so
+              its description state resets when swiping between gems. */}
           {gem ? (
             <div className="md:hidden">
-              <DetailPanel gem={gem} tags={gem.tags} onAddTag={openEditTags} />
+              <DetailPanel
+                key={gem.id}
+                gem={gem}
+                tags={gem.tags}
+                onAddTag={openEditTags}
+              />
             </div>
           ) : null}
         </div>
 
-        {/* Desktop: the entire detail panel as a fixed right column. */}
+        {/* Desktop: the entire detail panel as a fixed right column. The
+            panel is bottom-anchored and scrolls upward as the description
+            grows. */}
         {gem ? (
-          <div className="surface-blur hidden w-[360px] shrink-0 border-l border-border md:flex md:flex-col md:justify-end">
-            <DetailPanel gem={gem} tags={gem.tags} onAddTag={openEditTags} />
+          <div className="surface-blur hidden w-[380px] shrink-0 overflow-y-auto border-l border-border md:flex md:flex-col md:justify-end">
+            <DetailPanel
+              key={gem.id}
+              gem={gem}
+              tags={gem.tags}
+              onAddTag={openEditTags}
+            />
           </div>
         ) : null}
       </motion.div>
@@ -471,23 +484,29 @@ function HoverArrow({
 function MediaView({ gem }: { gem: Gem }) {
   if (!gem.media_url) return null;
   if (gem.type === "video") {
+    // w-full upscales small clips to the media area; max-h caps tall ones.
     return (
       <video
         src={gem.media_url}
         controls
-        className="max-h-full max-w-full rounded-card"
+        className="max-h-[70vh] w-full max-w-full rounded-card object-contain md:max-h-[82vh]"
       />
     );
   }
+  // Sized container + fill/object-contain so small media (e.g. gifs) scale
+  // up to fill the area consistently with larger images, keeping aspect.
   return (
-    <Image
-      src={gem.media_url}
-      alt=""
-      width={gem.width}
-      height={gem.height}
-      className="max-h-full max-w-full rounded-card object-contain"
-      priority
-    />
+    <div className="relative h-[70vh] w-full md:h-[82vh]">
+      <Image
+        src={gem.media_url}
+        alt=""
+        fill
+        sizes="(min-width: 768px) 65vw, 100vw"
+        className="rounded-card object-contain"
+        priority
+        unoptimized={gem.mime_type === "image/gif"}
+      />
+    </div>
   );
 }
 
@@ -563,10 +582,19 @@ function DetailPanel({
 }) {
   const initial = gem.description ?? "";
   const [description, setDescription] = useState<string>(initial);
-  const [focused, setFocused] = useState(false);
+  const ref = useRef<HTMLTextAreaElement>(null);
+
+  // Auto-grow to fit content. On desktop the bottom-anchored rail lets this
+  // grow upward and fill the sidebar; on mobile a max-height caps it so it
+  // never swallows the media, scrolling internally past the cap.
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    el.style.height = "auto";
+    el.style.height = `${el.scrollHeight}px`;
+  }, [description]);
 
   function commit() {
-    setFocused(false);
     if (description === initial) return;
     // Fire-and-forget; lightbox stays usable while the request lands.
     void updateGemDescription(gem.id, description);
@@ -575,16 +603,13 @@ function DetailPanel({
   return (
     <div className="surface-blur border-t border-border px-5 pt-4 pb-[calc(18px+env(safe-area-inset-bottom))] md:border-t-0 md:bg-transparent md:pb-6 md:[backdrop-filter:none]">
       <textarea
+        ref={ref}
         value={description}
         onChange={(e) => setDescription(e.target.value)}
-        onFocus={() => setFocused(true)}
         onBlur={commit}
         placeholder="add a description…"
-        rows={focused ? 4 : 3}
-        className={cn(
-          "w-full resize-none bg-transparent px-0 text-[15px] leading-relaxed text-text placeholder:text-text-subtle outline-none transition-[max-height] duration-200",
-          focused ? "max-h-[220px]" : "max-h-[88px]",
-        )}
+        rows={2}
+        className="max-h-[160px] w-full resize-none overflow-y-auto bg-transparent px-0 text-[15px] leading-relaxed text-text placeholder:text-text-subtle outline-none md:max-h-none md:overflow-y-visible"
       />
 
       <div className="mt-3 flex flex-wrap gap-1.5">
