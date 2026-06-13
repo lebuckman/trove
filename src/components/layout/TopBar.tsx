@@ -14,7 +14,10 @@ export function TopBar({
 }) {
   return (
     <header className="surface-blur sticky top-0 z-30 pt-5">
-      <div className="mx-auto flex h-12 max-w-2xl items-center px-3">
+      {/* Full-width within the app shell so the chevron lines up with the
+          page header's left edge on wide screens, not a narrow centered
+          column. */}
+      <div className="flex h-12 items-center px-2 lg:px-5">
         {backHref ? (
           <Link
             href={backHref}

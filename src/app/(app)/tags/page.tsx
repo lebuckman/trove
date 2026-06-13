@@ -38,7 +38,7 @@ export default async function TagsPage() {
           </Link>
         }
       />
-      <main className="flex-1 px-5 pb-8">
+      <main className="flex-1 px-5 pb-8 lg:px-8">
         {tags.length === 0 ? (
           <EmptyState
             icon={<TagEmptyIcon />}
@@ -47,9 +47,13 @@ export default async function TagsPage() {
             action={{ label: "new tag", href: "/tags?sheet=new-tag" }}
           />
         ) : (
-          <Suspense fallback={null}>
-            <TagsBody tags={tags} />
-          </Suspense>
+          // Constrain the list so rows stay readable instead of stretching
+          // across a wide desktop viewport. Left-aligned to match the header.
+          <div className="max-w-xl">
+            <Suspense fallback={null}>
+              <TagsBody tags={tags} />
+            </Suspense>
+          </div>
         )}
       </main>
     </>

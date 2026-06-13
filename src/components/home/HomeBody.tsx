@@ -83,7 +83,7 @@ export function HomeBody({
             : `${filtered.length} gems across your troves`
         }
       />
-      <main className="flex-1 px-5 pb-8">
+      <main className="flex-1 px-5 pb-8 lg:px-8">
         {libraryEmpty ? (
           <EmptyState
             icon={<GemsEmptyIcon />}
@@ -93,24 +93,20 @@ export function HomeBody({
           />
         ) : (
           <>
-            <div className="mb-4">
+            <div className="mb-4 max-w-2xl">
               <SearchInput value={query} onChange={setQuery} />
             </div>
             <div className="mb-5">
-              <div className="mb-1.5 flex items-center justify-between px-1">
-                <span className="text-[12.5px] font-medium lowercase text-text-subtle">
-                  tags
-                </span>
-                <Link
-                  href="/tags"
-                  aria-label="Manage tags"
-                  className="tappable -mr-1 flex h-6 w-6 items-center justify-center rounded-full text-text-subtle hover:text-text"
-                >
-                  <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
-                    <path d="m9 18 6-6-6-6" />
-                  </svg>
-                </Link>
-              </div>
+              <Link
+                href="/tags"
+                aria-label="Manage tags"
+                className="tappable mb-1.5 inline-flex items-center gap-0.5 px-1 text-text-subtle hover:text-text"
+              >
+                <span className="text-[12.5px] font-medium lowercase">tags</span>
+                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+                  <path d="m9 18 6-6-6-6" />
+                </svg>
+              </Link>
               <TagFilter tags={tags} counts={counts} onAdd={openNewTag} />
             </div>
             {noResults ? (

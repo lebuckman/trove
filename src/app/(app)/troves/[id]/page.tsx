@@ -44,7 +44,7 @@ export default async function TroveDetail({
           </Suspense>
         }
       />
-      <main className="flex-1 px-5 pb-8">
+      <main className="flex-1 px-5 pb-8 lg:px-8">
         <Suspense fallback={null}>
           <TroveBody troveId={trove.id} gems={gems} tags={tags} />
         </Suspense>

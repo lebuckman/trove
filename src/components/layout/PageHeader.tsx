@@ -17,18 +17,20 @@ export function PageHeader({
   inlineAction?: React.ReactNode;
 }) {
   return (
-    <header className="px-5 pt-14 pb-5">
+    <header className="px-5 pt-14 pb-5 lg:px-8 lg:pt-16 lg:pb-7">
       <div className="flex items-start justify-between gap-3">
-        <h1 className="min-w-0 text-[36px] font-bold leading-[1.05] tracking-tight lowercase">
+        <h1 className="min-w-0 text-[36px] font-bold leading-[1.05] tracking-tight lowercase lg:text-[44px]">
           {title}
         </h1>
         {inlineAction ? <div className="shrink-0 pt-2">{inlineAction}</div> : null}
       </div>
       {subtitle ? (
-        <p className="mt-1.5 text-[14px] lowercase text-text-muted">{subtitle}</p>
+        <p className="mt-1.5 text-[14px] lowercase text-text-muted lg:text-[15px]">
+          {subtitle}
+        </p>
       ) : null}
       {description ? (
-        <p className="mt-2.5 max-w-prose text-[15px] leading-relaxed text-text-muted">
+        <p className="mt-2.5 max-w-prose text-[15px] leading-relaxed text-text-muted lg:text-[16px]">
           {description}
         </p>
       ) : null}
