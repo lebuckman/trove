@@ -23,25 +23,56 @@ type StorageCapableClient = {
   };
 };
 
+// Cache signed URLs so the same path yields a stable URL across requests
+// within its lifetime. Without this, every page load mints a fresh
+// signature, so the browser and Next's image optimizer cache-miss on every
+// navigation. Refresh 10 min before the real expiry to avoid near-dead URLs.
+const signedUrlCache = new Map<string, { url: string; expiresAt: number }>();
+const CACHE_SOFT_TTL_MS = (SIGNED_URL_TTL_SECONDS - 600) * 1000;
+
 /**
- * Batch-sign storage paths. Returns a map of path → signed URL. Paths the
- * bucket rejects (deleted file, foreign user) are simply absent.
+ * Batch-sign storage paths. Returns a map of path → signed URL, serving
+ * cached URLs where still fresh and only signing the rest. Paths the bucket
+ * rejects (deleted file, foreign user) are simply absent.
  */
 export async function signedUrlMap(
   supabase: StorageCapableClient,
   paths: string[],
 ): Promise<Map<string, string>> {
   const unique = Array.from(new Set(paths.filter(Boolean)));
-  if (unique.length === 0) return new Map();
+  const result = new Map<string, string>();
+  if (unique.length === 0) return result;
+
+  const now = Date.now();
+  const missing: string[] = [];
+  for (const p of unique) {
+    const hit = signedUrlCache.get(p);
+    if (hit && hit.expiresAt > now) result.set(p, hit.url);
+    else missing.push(p);
+  }
+  if (missing.length === 0) return result;
+
   const { data, error } = await supabase.storage
     .from(STORAGE_BUCKET)
-    .createSignedUrls(unique, SIGNED_URL_TTL_SECONDS);
+    .createSignedUrls(missing, SIGNED_URL_TTL_SECONDS);
   if (error) throw error;
-  const map = new Map<string, string>();
   for (const row of data ?? []) {
-    if (row.path && row.signedUrl) map.set(row.path, row.signedUrl);
+    if (row.path && row.signedUrl) {
+      result.set(row.path, row.signedUrl);
+      signedUrlCache.set(row.path, {
+        url: row.signedUrl,
+        expiresAt: now + CACHE_SOFT_TTL_MS,
+      });
+    }
   }
-  return map;
+
+  // Light memory guard: drop expired entries once the map grows large.
+  if (signedUrlCache.size > 2000) {
+    for (const [k, v] of signedUrlCache) {
+      if (v.expiresAt <= now) signedUrlCache.delete(k);
+    }
+  }
+  return result;
 }
 
 /**
