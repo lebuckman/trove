@@ -76,7 +76,7 @@ export function SelectableTroveView({ gems }: { gems: Gem[] }) {
         onExit={exitMode}
         onSelectAll={selectAll}
       />
-      <main className="flex-1 px-5 pt-4 pb-32">
+      <main className="flex-1 px-5 pt-4 pb-32 lg:px-10">
         {gems.length === 0 ? (
           <EmptyState
             icon={<GemsEmptyIcon />}
@@ -140,12 +140,12 @@ function SelectHeader({
 }) {
   return (
     <header className="surface-blur sticky top-0 z-30 pt-5">
-      <div className="mx-auto flex h-12 max-w-2xl items-center justify-between px-3">
+      <div className="flex h-12 items-center justify-between px-3 lg:h-14 lg:px-8">
         <button
           type="button"
           onClick={onExit}
           aria-label="Exit select mode"
-          className="tappable flex h-11 w-11 items-center justify-center rounded-full text-text"
+          className="tappable flex h-11 w-11 items-center justify-center rounded-full text-text lg:h-12 lg:w-12"
         >
           <BackIcon />
         </button>
@@ -154,7 +154,7 @@ function SelectHeader({
           type="button"
           onClick={onSelectAll}
           disabled={!canSelectAll}
-          className="tappable rounded-full px-3 py-1.5 text-[13.5px] font-semibold lowercase text-gold disabled:opacity-40"
+          className="tappable rounded-full px-3 py-1.5 text-[13.5px] font-semibold lowercase text-gold disabled:opacity-40 lg:px-4 lg:text-[15px]"
         >
           {allSelected ? "deselect" : "select all"}
         </button>
@@ -217,18 +217,18 @@ function FloatingActionPill({
       transition={{ type: "spring", damping: 26, stiffness: 320 }}
       className="pointer-events-none fixed inset-x-0 bottom-0 z-40 flex justify-center pb-[calc(20px+env(safe-area-inset-bottom))]"
     >
-      <div className="pointer-events-auto flex items-center gap-1 rounded-full border border-border-strong bg-surface/95 p-1.5 pl-4 shadow-[0_12px_36px_-10px_rgba(0,0,0,0.7)] backdrop-blur-xl">
-        <div className="pr-1 text-[13.5px] font-semibold lowercase text-text-muted tabular-nums">
+      <div className="pointer-events-auto flex items-center gap-1 rounded-full border border-border-strong bg-surface/95 p-1.5 pl-4 shadow-[0_12px_36px_-10px_rgba(0,0,0,0.7)] backdrop-blur-xl lg:gap-1.5 lg:pl-5">
+        <div className="pr-1 text-[13.5px] font-semibold lowercase text-text-muted tabular-nums lg:text-[15px]">
           {count} selected
         </div>
-        <div className="mx-1 h-6 w-px bg-border" />
+        <div className="mx-1 h-6 w-px bg-border lg:h-7" />
         <button
           type="button"
           onClick={onMove}
           disabled={busy || !hasSelection}
           aria-label="Move selected"
           className={cn(
-            "tappable flex h-11 w-11 items-center justify-center rounded-full text-text",
+            "tappable flex h-11 w-11 items-center justify-center rounded-full text-text lg:h-12 lg:w-12",
             "hover:bg-surface-3/80 disabled:opacity-40",
           )}
         >
@@ -240,7 +240,7 @@ function FloatingActionPill({
           disabled={busy || !hasSelection}
           aria-label="Delete selected"
           className={cn(
-            "tappable flex h-11 w-11 items-center justify-center rounded-full text-danger",
+            "tappable flex h-11 w-11 items-center justify-center rounded-full text-danger lg:h-12 lg:w-12",
             "hover:bg-danger/15 disabled:opacity-40",
           )}
         >
