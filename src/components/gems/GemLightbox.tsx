@@ -391,7 +391,7 @@ function ChromeBar({
                     <ChromeMoveIcon />
                   </span>
                   <span className="text-[14.5px] font-medium lowercase">
-                    move to trove
+                    move
                   </span>
                 </button>
                 <button

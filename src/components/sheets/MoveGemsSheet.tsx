@@ -72,8 +72,7 @@ export function MoveGemsSheet() {
     }
   }
 
-  const title =
-    ids.length > 1 ? `move ${ids.length} gems` : "move to trove";
+  const title = ids.length > 1 ? `move ${ids.length} gems` : "move";
 
   return (
     <Sheet title={title}>
