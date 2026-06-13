@@ -14,7 +14,7 @@ export default function SignInPage() {
           trove
         </h1>
         <p className="mt-2 text-[15px] text-text-muted lowercase">
-          a private gallery for the things worth keeping.
+          a private gallery for the things worth keeping
         </p>
         <div className="mt-10 w-full">
           <GoogleSignInButton />

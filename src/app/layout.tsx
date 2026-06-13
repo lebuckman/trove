@@ -3,8 +3,8 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "Trove",
-    template: "%s · Trove",
+    default: "trove",
+    template: "%s · trove",
   },
   description: "A personal gallery of gems — images, video, and links.",
   applicationName: "Trove",
