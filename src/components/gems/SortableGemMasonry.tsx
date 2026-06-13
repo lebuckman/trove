@@ -65,7 +65,7 @@ export function SortableGemMasonry({
       onDragEnd={onDragEnd}
     >
       <SortableContext items={order} strategy={rectSortingStrategy}>
-        <div className="columns-2 gap-3 sm:columns-3 sm:gap-4 lg:columns-4 xl:columns-5">
+        <div className="columns-2 gap-3 sm:columns-3 sm:gap-4 lg:columns-3 lg:gap-5 xl:columns-4">
           {display.map((g, i) => (
             <SortableItem key={g.id} id={g.id} className="mb-3 break-inside-avoid">
               <GemCard gem={g} priority={i < 6} />

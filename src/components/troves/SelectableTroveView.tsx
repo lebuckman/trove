@@ -85,7 +85,7 @@ export function SelectableTroveView({ gems }: { gems: Gem[] }) {
             action={{ label: "exit select mode", onClick: exitMode }}
           />
         ) : (
-          <div className="columns-2 gap-3 sm:columns-3 sm:gap-4 lg:columns-4 xl:columns-5">
+          <div className="columns-2 gap-3 sm:columns-3 sm:gap-4 lg:columns-3 lg:gap-5 xl:columns-4">
             {gems.map((g, i) => (
               <GemCard
                 key={g.id}

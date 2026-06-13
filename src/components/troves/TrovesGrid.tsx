@@ -57,7 +57,7 @@ export function TrovesGrid({ troves }: { troves: Trove[] }) {
       onDragEnd={onDragEnd}
     >
       <SortableContext items={order} strategy={rectSortingStrategy}>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 lg:gap-5 xl:grid-cols-5">
           {display.map((t, i) => (
             <SortableItem key={t.id} id={t.id}>
               <TroveCard trove={t} priority={i < 4} />

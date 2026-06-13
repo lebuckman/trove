@@ -14,7 +14,7 @@ export function TagChip({ name, href, active, count }: Props) {
       href={href}
       scroll={false}
       className={cn(
-        "tappable inline-flex shrink-0 items-center gap-1.5 rounded-chip border px-3 py-1.5 text-[13px] font-medium lowercase",
+        "tappable inline-flex shrink-0 items-center gap-1.5 rounded-chip border px-3 py-1.5 text-[13px] font-medium lowercase lg:px-4 lg:py-2 lg:text-[14.5px]",
         active
           ? "border-accent bg-accent text-bg"
           : "border-border bg-surface-2/60 text-text-muted hover:text-text",

@@ -38,13 +38,14 @@ export default async function TroveDetail({
       <PageHeader
         title={trove.name}
         description={trove.description ?? undefined}
+        compact
         inlineAction={
           <Suspense fallback={null}>
             <TroveMenu />
           </Suspense>
         }
       />
-      <main className="flex-1 px-5 pb-8 lg:px-8">
+      <main className="flex-1 px-5 pb-8 lg:px-10">
         <Suspense fallback={null}>
           <TroveBody troveId={trove.id} gems={gems} tags={tags} />
         </Suspense>

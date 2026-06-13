@@ -31,8 +31,8 @@ export function TagFilter({
   if (tags.length === 0 && !onAdd) return null;
 
   return (
-    <div className="-mx-5 overflow-x-auto px-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-      <div className="flex gap-2 pb-1">
+    <div className="-mx-5 overflow-x-auto px-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:-mx-10 lg:px-10">
+      <div className="flex gap-2 pb-1 lg:gap-2.5">
         <TagChip name="all" href={hrefFor(null)} active={!activeTag} />
         {tags.map((t) => (
           <TagChip

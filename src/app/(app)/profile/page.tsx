@@ -19,7 +19,7 @@ export default async function ProfilePage() {
 
   return (
     <>
-      <header className="px-5 pt-14 pb-5 lg:px-8 lg:pt-16 lg:pb-7">
+      <header className="px-5 pt-14 pb-5 lg:px-10 lg:pt-16 lg:pb-8">
         <div className="flex items-start justify-between gap-3">
           <div className="flex min-w-0 items-center gap-4">
             <Avatar url={profile?.avatar_url ?? null} />
@@ -54,7 +54,7 @@ export default async function ProfilePage() {
           </div>
         </div>
       </header>
-      <main className="flex-1 px-4 pb-8 lg:px-8">
+      <main className="flex-1 px-4 pb-8 lg:px-10">
         {isEmpty ? (
           <EmptyState
             icon={<TrovesEmptyIcon />}

@@ -83,7 +83,7 @@ export function HomeBody({
             : `${filtered.length} gems across your troves`
         }
       />
-      <main className="flex-1 px-5 pb-8 lg:px-8">
+      <main className="flex-1 px-5 pb-8 lg:px-10">
         {libraryEmpty ? (
           <EmptyState
             icon={<GemsEmptyIcon />}
@@ -93,17 +93,19 @@ export function HomeBody({
           />
         ) : (
           <>
-            <div className="mb-4 max-w-2xl">
+            <div className="mb-4 max-w-2xl lg:mb-6 lg:max-w-3xl">
               <SearchInput value={query} onChange={setQuery} />
             </div>
-            <div className="mb-5">
+            <div className="mb-5 lg:mb-7">
               <Link
                 href="/tags"
                 aria-label="Manage tags"
-                className="tappable mb-1.5 inline-flex items-center gap-0.5 px-1 text-text-subtle hover:text-text"
+                className="tappable mb-1.5 inline-flex items-center gap-0.5 px-1 text-text-subtle hover:text-text lg:mb-2.5"
               >
-                <span className="text-[12.5px] font-medium lowercase">tags</span>
-                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+                <span className="text-[12.5px] font-medium lowercase lg:text-[13.5px]">
+                  tags
+                </span>
+                <svg viewBox="0 0 24 24" className="h-4 w-4 lg:h-[18px] lg:w-[18px]" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
                   <path d="m9 18 6-6-6-6" />
                 </svg>
               </Link>
@@ -146,7 +148,7 @@ function SearchInput({
     <div className="relative flex items-center">
       <svg
         viewBox="0 0 24 24"
-        className="pointer-events-none absolute left-4 h-5 w-5 text-text-subtle"
+        className="pointer-events-none absolute left-4 h-5 w-5 text-text-subtle lg:left-5 lg:h-6 lg:w-6"
         fill="none"
         stroke="currentColor"
         strokeWidth={1.8}
@@ -161,7 +163,7 @@ function SearchInput({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder="search your gems…"
-        className="w-full rounded-2xl border border-border bg-surface-2/60 py-3 pl-12 pr-12 text-[15px] text-text placeholder:text-text-subtle outline-none focus:border-accent focus:ring-2 focus:ring-accent/30"
+        className="w-full rounded-2xl border border-border bg-surface-2/60 py-3 pl-12 pr-12 text-[15px] text-text placeholder:text-text-subtle outline-none focus:border-accent focus:ring-2 focus:ring-accent/30 lg:rounded-[20px] lg:py-4 lg:pl-14 lg:text-[17px]"
       />
       {value ? (
         <button

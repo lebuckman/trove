@@ -21,6 +21,7 @@ export default async function TagsPage() {
     <>
       <TopBar backHref="/" />
       <PageHeader
+        compact
         title="tags"
         subtitle={
           tags.length === 0
@@ -38,7 +39,7 @@ export default async function TagsPage() {
           </Link>
         }
       />
-      <main className="flex-1 px-5 pb-8 lg:px-8">
+      <main className="flex-1 px-5 pb-8 lg:px-10">
         {tags.length === 0 ? (
           <EmptyState
             icon={<TagEmptyIcon />}

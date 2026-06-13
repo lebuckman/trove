@@ -8,7 +8,7 @@ import type { Gem } from "@/lib/queries/types";
 export function GemMasonry({ gems }: { gems: Gem[] }) {
   if (gems.length === 0) return null;
   return (
-    <div className="columns-2 gap-3 sm:columns-3 sm:gap-4 lg:columns-4 xl:columns-5">
+    <div className="columns-2 gap-3 sm:columns-3 sm:gap-4 lg:columns-3 lg:gap-5 xl:columns-4">
       {gems.map((g, i) => (
         <GemCard key={g.id} gem={g} priority={i < 6} />
       ))}
