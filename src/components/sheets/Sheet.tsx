@@ -64,7 +64,9 @@ export function Sheet({
         transition={{ duration: 0.16, ease: "easeOut" }}
       />
       {isDesktop ? (
-        <CenteredModal title={title}>{children}</CenteredModal>
+        <CenteredModal title={title} onClose={close}>
+          {children}
+        </CenteredModal>
       ) : (
         <BottomSheet title={title} onClose={close}>
           {children}
@@ -131,13 +133,23 @@ function BottomSheet({
 
 function CenteredModal({
   title,
+  onClose,
   children,
 }: {
   title?: string;
+  onClose: () => void;
   children: React.ReactNode;
 }) {
   return (
-    <div className="absolute inset-0 flex items-center justify-center p-6">
+    // This wrapper sits above the backdrop, so it must handle outside
+    // clicks itself — closing only when the click lands on the padding
+    // area, not on the modal.
+    <div
+      className="absolute inset-0 flex items-center justify-center p-6"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
       <motion.div
         role="dialog"
         aria-modal="true"
