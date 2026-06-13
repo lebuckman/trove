@@ -489,14 +489,16 @@ function MediaView({ gem }: { gem: Gem }) {
       <video
         src={gem.media_url}
         controls
-        className="max-h-[70vh] w-full max-w-full rounded-card object-contain md:max-h-[82vh]"
+        className="max-h-[56vh] w-full max-w-full rounded-card object-contain md:max-h-[80vh]"
       />
     );
   }
   // Sized container + fill/object-contain so small media (e.g. gifs) scale
   // up to fill the area consistently with larger images, keeping aspect.
+  // Heights stay within the available area so the scroll container never
+  // activates and steals the drag/swipe gesture.
   return (
-    <div className="relative h-[70vh] w-full md:h-[82vh]">
+    <div className="relative h-[56vh] w-full md:h-[80vh]">
       <Image
         src={gem.media_url}
         alt=""
