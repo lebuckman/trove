@@ -14,9 +14,9 @@
   --color-text-subtle: #6f6a61;
 
   /* Deep teal — primary accent: active states, CTAs, focus rings. */
-  --color-accent: #0d9488;
-  --color-accent-strong: #14b8a6;
-  --color-accent-soft: rgba(13, 148, 136, 0.18);
+  --color-accent: #17b3a3;
+  --color-accent-strong: #2dd4bf;
+  --color-accent-soft: rgba(45, 212, 191, 0.18);
 
   /* Soft gold — sparing secondary highlight (create CTA, select active). */
   --color-gold: #e8c268;
