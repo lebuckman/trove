@@ -93,7 +93,7 @@ export function HomeBody({
           />
         ) : (
           <>
-            <div className="mb-4 max-w-2xl lg:mb-6 lg:max-w-3xl">
+            <div className="mb-4 max-w-2xl lg:mb-6 lg:max-w-none">
               <SearchInput value={query} onChange={setQuery} />
             </div>
             <div className="mb-5 lg:mb-7">
