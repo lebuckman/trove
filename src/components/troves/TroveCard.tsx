@@ -12,7 +12,7 @@ export function TroveCard({
   return (
     <Link
       href={`/troves/${trove.id}`}
-      className="tappable group relative block aspect-[3/4] overflow-hidden rounded-card border border-border bg-surface-2"
+      className="tappable group relative block aspect-[3/4] overflow-hidden rounded-card border border-border bg-surface-2 transition-shadow duration-300 lg:hover:shadow-[0_12px_34px_-8px_rgba(45,212,191,0.35)] lg:hover:ring-1 lg:hover:ring-accent-strong/50"
     >
       {trove.cover_url ? (
         <Image
@@ -20,7 +20,7 @@ export function TroveCard({
           alt=""
           fill
           sizes="(min-width: 1024px) 280px, (min-width: 640px) 320px, 45vw"
-          className="object-cover"
+          className="object-cover transition-transform duration-[450ms] ease-out lg:group-hover:scale-[1.05]"
           priority={priority}
         />
       ) : (

@@ -81,7 +81,7 @@ export function GemCard({
     <button
       type="button"
       onClick={handleClick}
-      className="tappable group relative mb-3 block w-full overflow-hidden rounded-card border border-border bg-surface-2"
+      className="tappable group relative mb-3 block w-full overflow-hidden rounded-card border border-border bg-surface-2 transition-shadow duration-300 lg:hover:shadow-[0_10px_30px_-8px_rgba(45,212,191,0.35)] lg:hover:ring-1 lg:hover:ring-accent-strong/50"
       style={{ aspectRatio: aspect }}
     >
       {gem.media_url ? (
@@ -90,7 +90,7 @@ export function GemCard({
           alt={gem.og_title ?? ""}
           fill
           sizes="(min-width: 1280px) 240px, (min-width: 640px) 320px, 45vw"
-          className="object-cover"
+          className="object-cover transition-transform duration-[450ms] ease-out lg:group-hover:scale-[1.05]"
           priority={priority}
         />
       ) : null}
