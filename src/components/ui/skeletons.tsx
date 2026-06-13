@@ -1,30 +1,40 @@
-/** Shared shimmer building blocks for route-level loading.tsx files. */
+/** Shared shimmer building blocks for route-level loading.tsx files.
+ *  Header geometry mirrors PageHeader so the title doesn't jump when real
+ *  content arrives. */
 
 function Block({ className }: { className?: string }) {
   return <div className={`animate-pulse rounded-lg bg-surface-2 ${className ?? ""}`} />;
 }
 
-/** Large-title page header placeholder (home / profile / tags). */
-export function HeaderSkeleton({ compact }: { compact?: boolean }) {
+/** Page header placeholder: optional floating back chevron + title + subtitle. */
+export function HeaderSkeleton({
+  back,
+  leadingAvatar,
+}: {
+  back?: boolean;
+  leadingAvatar?: boolean;
+}) {
   return (
-    <header
-      className={
-        compact
-          ? "px-5 pt-2 pb-5 lg:px-10 lg:pb-7"
-          : "px-5 pt-14 pb-5 lg:px-10 lg:pt-16 lg:pb-8"
-      }
-    >
-      <Block className="h-9 w-44 lg:h-12 lg:w-64" />
-      <Block className="mt-3 h-4 w-56 lg:h-4.5 lg:w-72" />
+    <header className="relative px-5 pt-14 pb-5 lg:px-10 lg:pt-16 lg:pb-7">
+      {back ? (
+        <div className="absolute left-3 top-4 h-10 w-10 animate-pulse rounded-full bg-surface-2 lg:left-8 lg:top-5" />
+      ) : null}
+      <div className="flex items-center gap-3">
+        {leadingAvatar ? (
+          <div className="h-12 w-12 shrink-0 animate-pulse rounded-full bg-surface-2 lg:h-14 lg:w-14" />
+        ) : null}
+        <Block className="h-9 w-44 lg:h-12 lg:w-64" />
+      </div>
+      <Block className="mt-3 h-4 w-56 lg:w-72" />
     </header>
   );
 }
 
-/** Home: search field + tag chips + masonry. */
+/** Home body: search field + tag chips + masonry. */
 export function HomeSkeleton() {
   return (
     <main className="flex-1 px-5 pb-8 lg:px-10">
-      <Block className="mb-4 h-12 max-w-2xl lg:mb-6 lg:h-14 lg:max-w-3xl" />
+      <Block className="mb-4 h-12 max-w-2xl lg:mb-6 lg:h-14 lg:max-w-none" />
       <div className="mb-5 flex gap-2 lg:mb-7 lg:gap-2.5">
         {["w-12", "w-20", "w-16", "w-24", "w-14"].map((w, i) => (
           <Block key={i} className={`h-8 rounded-chip lg:h-9 ${w}`} />
@@ -32,17 +42,6 @@ export function HomeSkeleton() {
       </div>
       <MasonrySkeleton />
     </main>
-  );
-}
-
-/** Sticky chrome bar placeholder with a back-chevron disc. */
-export function TopBarSkeleton() {
-  return (
-    <div className="px-2 pt-5 lg:px-5">
-      <div className="flex h-12 items-center">
-        <div className="h-9 w-9 animate-pulse rounded-full bg-surface-2" />
-      </div>
-    </div>
   );
 }
 
@@ -81,7 +80,7 @@ export function GridSkeleton() {
 /** Stacked list rows (tags). */
 export function ListSkeleton() {
   return (
-    <div className="flex max-w-xl flex-col gap-1.5">
+    <div className="flex flex-col gap-1.5">
       {Array.from({ length: 8 }).map((_, i) => (
         <div
           key={i}

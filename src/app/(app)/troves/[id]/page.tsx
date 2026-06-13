@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import { TopBar } from "@/components/layout/TopBar";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { TroveBody } from "@/components/troves/TroveBody";
 import { TroveMenu } from "@/components/troves/TroveMenu";
@@ -34,11 +33,10 @@ export default async function TroveDetail({
   const tags = await listTagsForTrove(trove.id);
   return (
     <>
-      <TopBar backHref="/profile" />
       <PageHeader
         title={trove.name}
         description={trove.description ?? undefined}
-        compact
+        backHref="/profile"
         inlineAction={
           <Suspense fallback={null}>
             <TroveMenu />

@@ -1,6 +1,5 @@
 import { Suspense } from "react";
 import Link from "next/link";
-import { TopBar } from "@/components/layout/TopBar";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { TagsBody } from "@/components/tags/TagsBody";
 import { EmptyState, TagEmptyIcon } from "@/components/ui/EmptyState";
@@ -18,11 +17,12 @@ export default async function TagsPage() {
   const tags = await listAllTagsWithCounts();
 
   return (
-    <>
-      <TopBar backHref="/" />
+    // Centered single column on desktop — the tags page reads like the
+    // mobile layout at desktop sizing rather than stretching to full width.
+    <div className="mx-auto w-full max-w-2xl">
       <PageHeader
-        compact
         title="tags"
+        backHref="/"
         subtitle={
           tags.length === 0
             ? "tags appear here as you add them to gems"
@@ -39,7 +39,7 @@ export default async function TagsPage() {
           </Link>
         }
       />
-      <main className="flex-1 px-5 pb-8 lg:px-10">
+      <main className="flex-1 px-5 pb-8">
         {tags.length === 0 ? (
           <EmptyState
             icon={<TagEmptyIcon />}
@@ -48,15 +48,11 @@ export default async function TagsPage() {
             action={{ label: "new tag", href: "/tags?sheet=new-tag" }}
           />
         ) : (
-          // Constrain the list so rows stay readable instead of stretching
-          // across a wide desktop viewport. Left-aligned to match the header.
-          <div className="max-w-xl">
-            <Suspense fallback={null}>
-              <TagsBody tags={tags} />
-            </Suspense>
-          </div>
+          <Suspense fallback={null}>
+            <TagsBody tags={tags} />
+          </Suspense>
         )}
       </main>
-    </>
+    </div>
   );
 }
