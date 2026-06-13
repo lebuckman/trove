@@ -503,7 +503,7 @@ function ExternalIcon() {
 
 function LinkView({ gem }: { gem: Gem }) {
   return (
-    <div className="flex w-full max-w-md flex-col gap-4">
+    <div className="flex w-full max-w-md flex-col gap-4 md:max-w-3xl">
       <div className="overflow-hidden rounded-card border border-border bg-surface-2/80">
         {gem.media_url ? (
           <div className="relative aspect-[16/9] w-full bg-surface-3">
@@ -511,24 +511,24 @@ function LinkView({ gem }: { gem: Gem }) {
               src={gem.media_url}
               alt=""
               fill
-              sizes="600px"
+              sizes="(min-width: 768px) 768px, 600px"
               className="object-cover"
             />
           </div>
         ) : null}
-        <div className="p-4">
+        <div className="p-4 md:p-5">
           {gem.og_site_name ? (
-            <div className="text-[12px] font-medium lowercase text-text-subtle">
+            <div className="text-[12px] font-medium lowercase text-text-subtle md:text-[13px]">
               {gem.og_site_name}
             </div>
           ) : null}
           {gem.og_title ? (
-            <div className="mt-1 line-clamp-2 text-[17px] font-semibold leading-snug text-text">
+            <div className="mt-1 line-clamp-2 text-[17px] font-semibold leading-snug text-text md:text-[20px]">
               {gem.og_title}
             </div>
           ) : null}
           {gem.og_description ? (
-            <p className="mt-2 line-clamp-3 text-[13.5px] leading-relaxed text-text-muted">
+            <p className="mt-2 line-clamp-2 text-[13.5px] leading-relaxed text-text-muted md:text-[14.5px]">
               {gem.og_description}
             </p>
           ) : null}
