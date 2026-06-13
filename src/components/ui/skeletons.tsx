@@ -10,14 +10,28 @@ function Block({ className }: { className?: string }) {
 export function HeaderSkeleton({
   back,
   leadingAvatar,
+  narrow,
 }: {
   back?: boolean;
   leadingAvatar?: boolean;
+  narrow?: boolean;
 }) {
   return (
-    <header className="relative px-5 pt-14 pb-5 lg:px-10 lg:pt-16 lg:pb-7">
+    <header
+      className={
+        narrow
+          ? "relative px-5 pt-[4.5rem] pb-5 lg:pt-20"
+          : "relative px-5 pt-[4.5rem] pb-5 lg:px-10 lg:pt-20 lg:pb-7"
+      }
+    >
       {back ? (
-        <div className="absolute left-3 top-4 h-10 w-10 animate-pulse rounded-full bg-surface-2 lg:left-8 lg:top-5" />
+        <div
+          className={
+            narrow
+              ? "absolute left-3 top-5 h-10 w-10 animate-pulse rounded-full bg-surface-2 lg:top-7"
+              : "absolute left-3 top-5 h-10 w-10 animate-pulse rounded-full bg-surface-2 lg:left-8 lg:top-7"
+          }
+        />
       ) : null}
       <div className="flex items-center gap-3">
         {leadingAvatar ? (

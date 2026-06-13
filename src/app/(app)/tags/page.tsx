@@ -23,6 +23,7 @@ export default async function TagsPage() {
       <PageHeader
         title="tags"
         backHref="/"
+        narrow
         subtitle={
           tags.length === 0
             ? "tags appear here as you add them to gems"
