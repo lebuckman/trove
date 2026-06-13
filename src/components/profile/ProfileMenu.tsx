@@ -15,14 +15,6 @@ function MoreIcon() {
     </svg>
   );
 }
-function EditIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 20h9" />
-      <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z" />
-    </svg>
-  );
-}
 function SortIcon() {
   return (
     <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
@@ -135,11 +127,6 @@ export function ProfileMenu({
               style={{ transformOrigin: "top right" }}
               className="absolute right-0 top-11 z-40 w-[200px] rounded-2xl border border-border-strong bg-surface/95 p-1.5 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.6)] backdrop-blur-xl"
             >
-              <Row
-                icon={<EditIcon />}
-                label="edit profile"
-                onClick={() => goToSheet("edit-profile")}
-              />
               <Row
                 icon={<SortIcon />}
                 label="sort troves"

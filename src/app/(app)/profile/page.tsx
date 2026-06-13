@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { ProfileMenu } from "@/components/profile/ProfileMenu";
 import { TrovesGrid } from "@/components/troves/TrovesGrid";
 import { EmptyState, TrovesEmptyIcon } from "@/components/ui/EmptyState";
@@ -18,14 +19,27 @@ export default async function ProfilePage() {
 
   return (
     <>
-      <header className="px-5 pt-14 pb-5">
+      <header className="px-5 pt-14 pb-5 lg:px-8 lg:pt-16 lg:pb-7">
         <div className="flex items-start justify-between gap-3">
           <div className="flex min-w-0 items-center gap-4">
             <Avatar url={profile?.avatar_url ?? null} />
             <div className="min-w-0">
-              <h1 className="truncate text-[28px] font-bold leading-[1.1] tracking-tight lowercase">
-                {profile?.display_name ?? "your trove"}
-              </h1>
+              <div className="flex items-center gap-1.5">
+                <h1 className="truncate text-[28px] font-bold leading-[1.1] tracking-tight lowercase lg:text-[32px]">
+                  {profile?.display_name ?? "your trove"}
+                </h1>
+                <Link
+                  href="/profile?sheet=edit-profile"
+                  scroll={false}
+                  aria-label="Edit profile"
+                  className="tappable flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-text-subtle hover:bg-surface-2 hover:text-text"
+                >
+                  <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 20h9" />
+                    <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z" />
+                  </svg>
+                </Link>
+              </div>
               <p className="mt-1 text-[14px] lowercase text-text-muted">
                 {isEmpty
                   ? "make your first trove"
@@ -40,7 +54,7 @@ export default async function ProfilePage() {
           </div>
         </div>
       </header>
-      <main className="flex-1 px-4 pb-8">
+      <main className="flex-1 px-4 pb-8 lg:px-8">
         {isEmpty ? (
           <EmptyState
             icon={<TrovesEmptyIcon />}
