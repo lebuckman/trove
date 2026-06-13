@@ -75,7 +75,7 @@ export function BottomNav() {
           type="button"
           onClick={openCreate}
           aria-label="Create"
-          className="tappable relative -mt-7 flex h-14 w-14 items-center justify-center rounded-full bg-gold text-bg shadow-[0_12px_30px_-6px_rgba(232,194,104,0.45)] ring-1 ring-white/10 hover:bg-gold-strong"
+          className="tappable relative -mt-7 flex h-14 w-14 items-center justify-center rounded-full bg-accent text-bg shadow-[0_12px_30px_-6px_rgba(13,148,136,0.5)] ring-1 ring-white/10 hover:bg-accent-strong"
         >
           <PlusIcon className="h-6.5 w-6.5" />
         </button>
