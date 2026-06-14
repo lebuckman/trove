@@ -92,6 +92,21 @@ export async function listTroves(): Promise<Trove[]> {
   );
 }
 
+/** Just the trove's name + description — fast (no gems, no signing).
+ *  Used to render the detail header instantly while gems stream in. */
+export async function getTroveMeta(
+  id: string,
+): Promise<{ name: string; description: string | null } | null> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("troves")
+    .select("name, description")
+    .eq("id", id)
+    .maybeSingle();
+  if (error) throw error;
+  return data ?? null;
+}
+
 export async function getTrove(id: string): Promise<Trove | null> {
   const supabase = await createClient();
   const [troveRes, gemsRes] = await Promise.all([
