@@ -5,6 +5,10 @@ export type LinkPreview = {
   title: string | null;
   description: string | null;
   thumbnailUrl: string | null;
+  // Natural thumbnail dimensions when the source exposes them, so the gem
+  // card can render at the right aspect instead of cropping a square.
+  thumbnailWidth: number | null;
+  thumbnailHeight: number | null;
   siteName: string | null;
 };
 
@@ -34,9 +38,22 @@ export function isPubliclyFetchableUrl(raw: string): URL | null {
   return parsed;
 }
 
+function toNum(v: unknown): number | null {
+  const n = typeof v === "string" ? parseInt(v, 10) : typeof v === "number" ? v : NaN;
+  return Number.isFinite(n) && n > 0 ? n : null;
+}
+
 export async function fetchLinkPreview(raw: string): Promise<LinkPreview | null> {
   const parsed = isPubliclyFetchableUrl(raw);
   if (!parsed) return null;
+
+  // TikTok serves no OG tags to non-browser user-agents; use its public
+  // oEmbed endpoint instead.
+  if (/(^|\.)tiktok\.com$/i.test(parsed.hostname)) {
+    const oembed = await fetchTikTokOEmbed(parsed.toString());
+    if (oembed) return oembed;
+    // fall through to a generic scrape if oEmbed is unavailable
+  }
 
   const { error, result } = await ogs({
     url: parsed.toString(),
@@ -50,12 +67,43 @@ export async function fetchLinkPreview(raw: string): Promise<LinkPreview | null>
   });
   if (error) return null;
 
-  const thumb = Array.isArray(result.ogImage) ? result.ogImage[0]?.url : undefined;
+  const image = Array.isArray(result.ogImage) ? result.ogImage[0] : undefined;
   return {
     url: parsed.toString(),
     title: result.ogTitle ?? result.twitterTitle ?? null,
     description: result.ogDescription ?? result.twitterDescription ?? null,
-    thumbnailUrl: thumb ?? null,
+    thumbnailUrl: image?.url ?? null,
+    thumbnailWidth: toNum(image?.width),
+    thumbnailHeight: toNum(image?.height),
     siteName: result.ogSiteName ?? null,
   };
+}
+
+async function fetchTikTokOEmbed(url: string): Promise<LinkPreview | null> {
+  try {
+    const res = await fetch(
+      `https://www.tiktok.com/oembed?url=${encodeURIComponent(url)}`,
+      { signal: AbortSignal.timeout(8000) },
+    );
+    if (!res.ok) return null;
+    const data = (await res.json()) as {
+      title?: string;
+      author_name?: string;
+      thumbnail_url?: string;
+      thumbnail_width?: number | string;
+      thumbnail_height?: number | string;
+    };
+    if (!data.thumbnail_url && !data.title) return null;
+    return {
+      url,
+      title: data.title || data.author_name || null,
+      description: data.author_name ? `by ${data.author_name}` : null,
+      thumbnailUrl: data.thumbnail_url ?? null,
+      thumbnailWidth: toNum(data.thumbnail_width),
+      thumbnailHeight: toNum(data.thumbnail_height),
+      siteName: "TikTok",
+    };
+  } catch {
+    return null;
+  }
 }

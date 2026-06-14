@@ -15,7 +15,12 @@ import {
   createLinkGem,
   createMediaGem,
 } from "@/lib/actions/gems";
-import { deleteGemFile, extractDimensions, uploadGemFile } from "@/lib/storage";
+import {
+  deleteGemFile,
+  extractDimensions,
+  imageDimensionsFromUrl,
+  uploadGemFile,
+} from "@/lib/storage";
 import type { Trove, Tag } from "@/lib/queries/types";
 import { cn } from "@/lib/utils";
 
@@ -69,6 +74,8 @@ export function AddGemSheet({ mode }: { mode: Mode }) {
     title: string | null;
     description: string | null;
     thumbnailUrl: string | null;
+    thumbnailWidth: number | null;
+    thumbnailHeight: number | null;
     siteName: string | null;
   } | null>(null);
   const [previewLoading, setPreviewLoading] = useState(false);
@@ -125,6 +132,17 @@ export function AddGemSheet({ mode }: { mode: Mode }) {
           tag_names: tags,
         });
       } else {
+        // Prefer dimensions the preview reported; otherwise probe the
+        // thumbnail so the card isn't forced into a cropped square.
+        let width = preview?.thumbnailWidth ?? null;
+        let height = preview?.thumbnailHeight ?? null;
+        if (preview?.thumbnailUrl && (!width || !height)) {
+          const dims = await imageDimensionsFromUrl(preview.thumbnailUrl);
+          if (dims) {
+            width = dims.width;
+            height = dims.height;
+          }
+        }
         await createLinkGem({
           trove_id: troveId,
           url,
@@ -133,6 +151,8 @@ export function AddGemSheet({ mode }: { mode: Mode }) {
           og_description: preview?.description ?? null,
           og_thumbnail_url: preview?.thumbnailUrl ?? null,
           og_site_name: preview?.siteName ?? null,
+          width,
+          height,
           tag_names: tags,
         });
       }

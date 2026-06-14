@@ -64,6 +64,9 @@ export async function createLinkGem(input: {
   og_description: string | null;
   og_thumbnail_url: string | null;
   og_site_name: string | null;
+  // Thumbnail dimensions so the card renders at the right aspect.
+  width: number | null;
+  height: number | null;
   tag_names: string[];
 }): Promise<string> {
   // If the client didn't pre-fetch a preview (e.g. user skipped the
@@ -72,6 +75,8 @@ export async function createLinkGem(input: {
   let og_description = input.og_description;
   let og_thumbnail_url = input.og_thumbnail_url;
   let og_site_name = input.og_site_name;
+  let width = input.width;
+  let height = input.height;
   const hasMeta =
     og_title || og_description || og_thumbnail_url || og_site_name;
   if (!hasMeta) {
@@ -82,6 +87,8 @@ export async function createLinkGem(input: {
         og_description = preview.description;
         og_thumbnail_url = preview.thumbnailUrl;
         og_site_name = preview.siteName;
+        width = preview.thumbnailWidth;
+        height = preview.thumbnailHeight;
       }
     } catch {
       // Save without metadata rather than failing the action.
@@ -102,6 +109,8 @@ export async function createLinkGem(input: {
       og_description,
       og_thumbnail_url,
       og_site_name,
+      width,
+      height,
     })
     .select("id")
     .single();

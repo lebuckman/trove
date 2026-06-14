@@ -45,6 +45,18 @@ export function extractDimensions(file: File): Promise<Dimensions> {
   return extractImageDimensions(file);
 }
 
+/** Natural dimensions of a remote image (e.g. a link's OG thumbnail), so a
+ *  link gem's card can use the right aspect. Resolves null if it can't load. */
+export function imageDimensionsFromUrl(url: string): Promise<Dimensions | null> {
+  return new Promise((resolve) => {
+    const img = new window.Image();
+    img.onload = () =>
+      resolve({ width: img.naturalWidth, height: img.naturalHeight });
+    img.onerror = () => resolve(null);
+    img.src = url;
+  });
+}
+
 function extractImageDimensions(file: File): Promise<Dimensions> {
   return new Promise((resolve, reject) => {
     const url = URL.createObjectURL(file);
