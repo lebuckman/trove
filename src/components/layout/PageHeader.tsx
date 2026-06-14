@@ -18,7 +18,7 @@ export function PageHeader({
 }: {
   title: string;
   /** Small line directly under the title (e.g. "6 troves"). */
-  subtitle?: string;
+  subtitle?: React.ReactNode;
   /** Longer paragraph under the title (e.g. trove description). */
   description?: string;
   /** Renders a floating back chevron in the top-left chrome zone. */

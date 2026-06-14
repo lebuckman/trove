@@ -3,7 +3,6 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { PageHeader } from "@/components/layout/PageHeader";
 import { TagFilter } from "@/components/ui/TagFilter";
 import { useSetGemList } from "@/components/gems/GemListContext";
 import { GemMasonry } from "@/components/gems/GemMasonry";
@@ -73,18 +72,11 @@ export function HomeBody({
   const libraryEmpty = gems.length === 0;
   const noResults = !libraryEmpty && filtered.length === 0;
 
+  // The page shell renders the header; this component is just the body so it
+  // can stream in under its own Suspense boundary while the header paints.
   return (
-    <>
-      <PageHeader
-        title="trove"
-        subtitle={
-          libraryEmpty
-            ? "gems from every trove appear here"
-            : `${filtered.length} gems across your troves`
-        }
-      />
-      <main className="flex-1 px-5 pb-8 lg:px-10">
-        {libraryEmpty ? (
+    <main className="flex-1 px-5 pb-8 lg:px-10">
+      {libraryEmpty ? (
           <EmptyState
             icon={<GemsEmptyIcon />}
             title="no gems yet"
@@ -132,8 +124,7 @@ export function HomeBody({
             )}
           </>
         )}
-      </main>
-    </>
+    </main>
   );
 }
 
