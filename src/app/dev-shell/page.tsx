@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
 import { AppShell } from "@/components/layout/AppShell";
+import { PageHeader } from "@/components/layout/PageHeader";
 import { HomeBody } from "@/components/home/HomeBody";
+import { HomeSubtitle } from "@/components/home/HomeSubtitle";
 import { ProfileShellPreview } from "@/components/profile/ProfileShellPreview";
 import type { Gem, Tag, Trove } from "@/lib/queries/types";
 
@@ -65,7 +67,13 @@ export default async function DevShell({
       {view === "profile" ? (
         <ProfileShellPreview troves={TROVES} />
       ) : (
-        <HomeBody gems={GEMS} tags={TAGS} counts={COUNTS} />
+        <>
+          <PageHeader
+            title="trove"
+            subtitle={<HomeSubtitle count={GEMS.length} />}
+          />
+          <HomeBody gems={GEMS} tags={TAGS} counts={COUNTS} />
+        </>
       )}
     </AppShell>
   );

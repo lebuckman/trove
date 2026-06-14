@@ -1,4 +1,5 @@
 import { PageHeader } from "@/components/layout/PageHeader";
+import { ProfileSubtitle } from "@/components/profile/ProfileSubtitle";
 import { TrovesGrid } from "@/components/troves/TrovesGrid";
 import type { Trove } from "@/lib/queries/types";
 
@@ -8,7 +9,7 @@ export function ProfileShellPreview({ troves }: { troves: Trove[] }) {
     <>
       <PageHeader
         title="liam buckman"
-        subtitle={`${troves.length} troves · 24 gems`}
+        subtitle={<ProfileSubtitle troves={troves.length} gems={24} />}
         leading={
           <div className="h-16 w-16 shrink-0 rounded-full bg-accent-soft lg:h-[72px] lg:w-[72px]" />
         }
