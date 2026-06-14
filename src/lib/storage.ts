@@ -31,6 +31,13 @@ export async function uploadGemFile(file: File): Promise<UploadedGem> {
   return { storage_path: path, mime_type: file.type };
 }
 
+/** Remove an uploaded file. Used to clean up when the gem row insert fails
+ *  after the upload already succeeded, so no orphan is left behind. */
+export async function deleteGemFile(path: string): Promise<void> {
+  const supabase = createClient();
+  await supabase.storage.from(STORAGE_BUCKET).remove([path]);
+}
+
 export type Dimensions = { width: number; height: number };
 
 export function extractDimensions(file: File): Promise<Dimensions> {
