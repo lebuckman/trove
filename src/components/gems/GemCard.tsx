@@ -92,6 +92,9 @@ export function GemCard({
           sizes="(min-width: 1280px) 240px, (min-width: 640px) 320px, 45vw"
           className="object-cover transition-transform duration-[450ms] ease-out lg:group-hover:scale-[1.05]"
           priority={priority}
+          // Link thumbnails are arbitrary third-party URLs; skip server-side
+          // optimization so Next never fetches them (avoids SSRF).
+          unoptimized={gem.type === "link"}
         />
       ) : null}
 

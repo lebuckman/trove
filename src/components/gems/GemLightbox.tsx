@@ -537,6 +537,8 @@ function LinkView({ gem }: { gem: Gem }) {
               fill
               sizes="(min-width: 768px) 768px, 600px"
               className="object-cover"
+              // Third-party OG thumbnail — don't let the server fetch it.
+              unoptimized
             />
           </div>
         ) : null}

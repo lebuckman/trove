@@ -43,6 +43,13 @@ function toNum(v: unknown): number | null {
   return Number.isFinite(n) && n > 0 ? n : null;
 }
 
+/** Drop thumbnail URLs that point at private/internal hosts — a page can
+ *  advertise any og:image, and we don't want one aimed at an internal
+ *  address to be stored and later fetched. */
+function safeThumb(url: string | null | undefined): string | null {
+  return url && isPubliclyFetchableUrl(url) ? url : null;
+}
+
 export async function fetchLinkPreview(raw: string): Promise<LinkPreview | null> {
   const parsed = isPubliclyFetchableUrl(raw);
   if (!parsed) return null;
@@ -72,7 +79,7 @@ export async function fetchLinkPreview(raw: string): Promise<LinkPreview | null>
     url: parsed.toString(),
     title: result.ogTitle ?? result.twitterTitle ?? null,
     description: result.ogDescription ?? result.twitterDescription ?? null,
-    thumbnailUrl: image?.url ?? null,
+    thumbnailUrl: safeThumb(image?.url),
     thumbnailWidth: toNum(image?.width),
     thumbnailHeight: toNum(image?.height),
     siteName: result.ogSiteName ?? null,
@@ -98,7 +105,7 @@ async function fetchTikTokOEmbed(url: string): Promise<LinkPreview | null> {
       url,
       title: data.title || data.author_name || null,
       description: data.author_name ? `by ${data.author_name}` : null,
-      thumbnailUrl: data.thumbnail_url ?? null,
+      thumbnailUrl: safeThumb(data.thumbnail_url),
       thumbnailWidth: toNum(data.thumbnail_width),
       thumbnailHeight: toNum(data.thumbnail_height),
       siteName: "TikTok",
