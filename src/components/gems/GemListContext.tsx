@@ -33,13 +33,9 @@ export function GemListProvider({ children }: { children: React.ReactNode }) {
 export function useSetGemList(ids: string[]): void {
   const ctx = useContext(GemListContext);
   useEffect(() => {
-    if (!ctx) return;
-    ctx.setIds(ids);
-    return () => {
-      // Don't aggressively clear on unmount — the lightbox often outlives
-      // a re-render of the page (e.g. filter change). The next page's
-      // effect will overwrite.
-    };
+    // Deliberately no cleanup: the lightbox outlives page re-renders (e.g. a
+    // filter change), so the next page's effect overwrites instead.
+    ctx?.setIds(ids);
   }, [ctx, ids]);
 }
 

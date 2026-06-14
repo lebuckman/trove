@@ -102,19 +102,6 @@ export function filterGemsByTag<T extends Pick<Gem, "tags">>(
   return gems.filter((g) => g.tags.some((t) => t.id === tagId));
 }
 
-/** Tally gems per tag id across a list of gems. */
-export function countGemsByTagFromGems(
-  gems: Pick<Gem, "tags">[],
-): Record<string, number> {
-  const counts: Record<string, number> = {};
-  for (const g of gems) {
-    for (const t of g.tags) {
-      counts[t.id] = (counts[t.id] ?? 0) + 1;
-    }
-  }
-  return counts;
-}
-
 /** Compact a row's tag join into a flat Tag[]. Supabase's nested select for a
  *  many-to-many returns the related rows nested under the table name. */
 export function flattenTags(

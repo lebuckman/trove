@@ -106,24 +106,3 @@ export async function getTroveMeta(
   if (error) throw error;
   return data ?? null;
 }
-
-export async function getTrove(id: string): Promise<Trove | null> {
-  const supabase = await createClient();
-  const [troveRes, gemsRes] = await Promise.all([
-    supabase.from("troves").select(TROVE_SELECT).eq("id", id).maybeSingle(),
-    supabase
-      .from("gems")
-      .select(COVERABLE_SELECT)
-      .eq("trove_id", id)
-      .order("created_at", { ascending: false }),
-  ]);
-  if (troveRes.error) throw troveRes.error;
-  if (gemsRes.error) throw gemsRes.error;
-  if (!troveRes.data) return null;
-  const [trove] = await buildCovers(
-    supabase,
-    [troveRes.data as TroveRow],
-    (gemsRes.data ?? []) as CoverableGem[],
-  );
-  return trove ?? null;
-}

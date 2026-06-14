@@ -28,16 +28,3 @@ export async function listTroveGems(troveId: string): Promise<Gem[]> {
   if (error) throw error;
   return mapGems(supabase, (data as unknown as GemRow[] | null) ?? []);
 }
-
-export async function getGem(id: string): Promise<Gem | null> {
-  const supabase = await createClient();
-  const { data, error } = await supabase
-    .from("gems")
-    .select(GEM_SELECT_WITH_TAGS)
-    .eq("id", id)
-    .maybeSingle();
-  if (error) throw error;
-  if (!data) return null;
-  const [gem] = await mapGems(supabase, [data as unknown as GemRow]);
-  return gem ?? null;
-}
