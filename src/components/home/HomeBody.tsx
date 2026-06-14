@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useDeferredValue, useMemo, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { TagFilter } from "@/components/ui/TagFilter";
@@ -58,7 +58,9 @@ export function HomeBody({
 
   const tagId = searchParams.get("tag");
   const [query, setQuery] = useState("");
-  const q = query.trim().toLowerCase();
+  // Defer the filter off the keystroke so the input stays responsive while
+  // the masonry re-render (the expensive part) lags behind without lag-feel.
+  const q = useDeferredValue(query).trim().toLowerCase();
 
   const filtered = useMemo(() => {
     const byTag = filterGemsByTag(gems, tagId);
@@ -154,7 +156,7 @@ function SearchInput({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder="search your gems…"
-        className="w-full rounded-2xl border border-border bg-surface-2/60 py-3 pl-12 pr-12 text-[15px] text-text placeholder:text-text-subtle outline-none focus:border-accent focus:ring-2 focus:ring-accent/30 lg:rounded-[20px] lg:py-4 lg:pl-14 lg:text-[17px]"
+        className="w-full rounded-2xl border border-border bg-surface-2/60 py-3 pl-12 pr-12 text-[16px] text-text placeholder:text-text-subtle outline-none focus:border-accent focus:ring-2 focus:ring-accent/30 lg:rounded-[20px] lg:py-4 lg:pl-14 lg:text-[17px]"
       />
       {value ? (
         <button
