@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { PageHeader } from "@/components/layout/PageHeader";
@@ -8,6 +9,16 @@ import { HeaderSkeleton, MasonrySkeleton } from "@/components/ui/skeletons";
 import { getTroveMeta } from "@/lib/queries/troves";
 import { listTroveGems } from "@/lib/queries/gems";
 import { listTagsForTrove } from "@/lib/queries/tags";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const meta = await getTroveMeta(id);
+  return { title: meta?.name ?? "trove" };
+}
 
 export default async function TroveDetail({
   params,

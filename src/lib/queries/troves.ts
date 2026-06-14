@@ -1,5 +1,6 @@
 import "server-only";
 
+import { cache } from "react";
 import { createClient } from "@/lib/supabase/server";
 import type { Trove, GemType } from "./types";
 import { gemMediaUrl, signedUrlMap } from "./util";
@@ -92,17 +93,20 @@ export async function listTroves(): Promise<Trove[]> {
   );
 }
 
-/** Just the trove's name + description — fast (no gems, no signing).
- *  Used to render the detail header instantly while gems stream in. */
-export async function getTroveMeta(
-  id: string,
-): Promise<{ name: string; description: string | null } | null> {
-  const supabase = await createClient();
-  const { data, error } = await supabase
-    .from("troves")
-    .select("name, description")
-    .eq("id", id)
-    .maybeSingle();
-  if (error) throw error;
-  return data ?? null;
-}
+/** Just the trove's name + description — fast (no gems, no signing). Used by
+ *  both the detail header and generateMetadata; cache() dedupes the two
+ *  calls within a request. */
+export const getTroveMeta = cache(
+  async (
+    id: string,
+  ): Promise<{ name: string; description: string | null } | null> => {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("troves")
+      .select("name, description")
+      .eq("id", id)
+      .maybeSingle();
+    if (error) throw error;
+    return data ?? null;
+  },
+);

@@ -8,6 +8,8 @@ import { ListSkeleton } from "@/components/ui/skeletons";
 import { listAllTagsWithCounts } from "@/lib/queries/tags";
 import { getTagCount } from "@/lib/queries/stats";
 
+export const metadata = { title: "tags" };
+
 function PlusIcon() {
   return (
     <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round">
