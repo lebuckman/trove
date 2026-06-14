@@ -49,10 +49,14 @@ export function HomeSkeleton() {
   return (
     <main className="flex-1 px-5 pb-8 lg:px-10">
       <Block className="mb-4 h-12 max-w-2xl lg:mb-6 lg:h-14 lg:max-w-none" />
-      <div className="mb-5 flex gap-2 lg:mb-7 lg:gap-2.5">
-        {["w-12", "w-20", "w-16", "w-24", "w-14"].map((w, i) => (
-          <Block key={i} className={`h-8 rounded-chip lg:h-9 ${w}`} />
-        ))}
+      {/* tags label + chips, matching HomeBody's spacing so nothing jumps */}
+      <div className="mb-5 lg:mb-7">
+        <Block className="mb-1.5 h-4 w-10 lg:mb-2.5" />
+        <div className="flex gap-2 lg:gap-2.5">
+          {["w-12", "w-20", "w-16", "w-24", "w-14"].map((w, i) => (
+            <Block key={i} className={`h-8 rounded-chip lg:h-9 ${w}`} />
+          ))}
+        </div>
       </div>
       <MasonrySkeleton />
     </main>
