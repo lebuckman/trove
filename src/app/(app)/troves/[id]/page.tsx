@@ -4,7 +4,8 @@ import { PageHeader } from "@/components/layout/PageHeader";
 import { TroveBody } from "@/components/troves/TroveBody";
 import { TroveMenu } from "@/components/troves/TroveMenu";
 import { SelectableTroveView } from "@/components/troves/SelectableTroveView";
-import { getTrove } from "@/lib/queries/troves";
+import { HeaderSkeleton, MasonrySkeleton } from "@/components/ui/skeletons";
+import { getTroveMeta } from "@/lib/queries/troves";
 import { listTroveGems } from "@/lib/queries/gems";
 import { listTagsForTrove } from "@/lib/queries/tags";
 
@@ -17,37 +18,59 @@ export default async function TroveDetail({
 }) {
   const { id } = await params;
   const sp = await searchParams;
-  const trove = await getTrove(id);
-  if (!trove) notFound();
-
-  const gems = await listTroveGems(trove.id);
 
   if (sp.mode === "select") {
     return (
-      <Suspense fallback={null}>
-        <SelectableTroveView gems={gems} />
+      <Suspense
+        fallback={
+          <main className="flex-1 px-5 pb-32 pt-20 lg:px-10">
+            <MasonrySkeleton />
+          </main>
+        }
+      >
+        <SelectLoader id={id} />
       </Suspense>
     );
   }
 
-  const tags = await listTagsForTrove(trove.id);
+  // Header resolves from a fast name/description query; the gem masonry
+  // streams in separately.
   return (
     <>
-      <PageHeader
-        title={trove.name}
-        description={trove.description ?? undefined}
-        backHref="/profile"
-        inlineAction={
-          <Suspense fallback={null}>
-            <TroveMenu />
-          </Suspense>
-        }
-      />
+      <Suspense fallback={<HeaderSkeleton back />}>
+        <Header id={id} />
+      </Suspense>
       <main className="flex-1 px-5 pb-8 lg:px-10">
-        <Suspense fallback={null}>
-          <TroveBody troveId={trove.id} gems={gems} tags={tags} />
+        <Suspense fallback={<MasonrySkeleton />}>
+          <Gems id={id} />
         </Suspense>
       </main>
     </>
   );
+}
+
+async function Header({ id }: { id: string }) {
+  const meta = await getTroveMeta(id);
+  if (!meta) notFound();
+  return (
+    <PageHeader
+      title={meta.name}
+      description={meta.description ?? undefined}
+      backHref="/profile"
+      inlineAction={<TroveMenu />}
+    />
+  );
+}
+
+async function Gems({ id }: { id: string }) {
+  const [gems, tags] = await Promise.all([
+    listTroveGems(id),
+    listTagsForTrove(id),
+  ]);
+  return <TroveBody troveId={id} gems={gems} tags={tags} />;
+}
+
+async function SelectLoader({ id }: { id: string }) {
+  const gems = await listTroveGems(id);
+  return <SelectableTroveView gems={gems} />;
 }

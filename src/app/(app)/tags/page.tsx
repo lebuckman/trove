@@ -2,8 +2,11 @@ import { Suspense } from "react";
 import Link from "next/link";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { TagsBody } from "@/components/tags/TagsBody";
+import { TagsSubtitle } from "@/components/tags/TagsSubtitle";
 import { EmptyState, TagEmptyIcon } from "@/components/ui/EmptyState";
+import { ListSkeleton } from "@/components/ui/skeletons";
 import { listAllTagsWithCounts } from "@/lib/queries/tags";
+import { getTagCount } from "@/lib/queries/stats";
 
 function PlusIcon() {
   return (
@@ -13,9 +16,8 @@ function PlusIcon() {
   );
 }
 
-export default async function TagsPage() {
-  const tags = await listAllTagsWithCounts();
-
+// Static title + counting subtitle paint instantly; the list streams in.
+export default function TagsPage() {
   return (
     // Centered single column on desktop — the tags page reads like the
     // mobile layout at desktop sizing rather than stretching to full width.
@@ -25,9 +27,9 @@ export default async function TagsPage() {
         backHref="/"
         narrow
         subtitle={
-          tags.length === 0
-            ? "tags appear here as you add them to gems"
-            : `${tags.length} ${tags.length === 1 ? "tag" : "tags"}`
+          <Suspense fallback="0 tags">
+            <SubtitleLoader />
+          </Suspense>
         }
         inlineAction={
           <Link
@@ -41,19 +43,30 @@ export default async function TagsPage() {
         }
       />
       <main className="flex-1 px-5 pb-8">
-        {tags.length === 0 ? (
-          <EmptyState
-            icon={<TagEmptyIcon />}
-            title="no tags yet"
-            description="create one here, or add tags as you save gems. they'll appear in this list."
-            action={{ label: "new tag", href: "/tags?sheet=new-tag" }}
-          />
-        ) : (
-          <Suspense fallback={null}>
-            <TagsBody tags={tags} />
-          </Suspense>
-        )}
+        <Suspense fallback={<ListSkeleton />}>
+          <List />
+        </Suspense>
       </main>
     </div>
   );
+}
+
+async function SubtitleLoader() {
+  const count = await getTagCount();
+  return <TagsSubtitle count={count} />;
+}
+
+async function List() {
+  const tags = await listAllTagsWithCounts();
+  if (tags.length === 0) {
+    return (
+      <EmptyState
+        icon={<TagEmptyIcon />}
+        title="no tags yet"
+        description="create one here, or add tags as you save gems. they'll appear in this list."
+        action={{ label: "new tag", href: "/tags?sheet=new-tag" }}
+      />
+    );
+  }
+  return <TagsBody tags={tags} />;
 }
