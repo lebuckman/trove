@@ -83,7 +83,7 @@ export function ChipInput({
           onKeyDown={onKeyDown}
           onBlur={() => commit(draft)}
           placeholder={values.length === 0 ? placeholder : ""}
-          className="min-w-[80px] flex-1 bg-transparent py-1 text-[14px] text-text outline-none placeholder:text-text-subtle"
+          className="min-w-[80px] flex-1 bg-transparent py-1 text-[16px] text-text outline-none placeholder:text-text-subtle"
         />
       </div>
       {filteredSuggestions.length > 0 ? (

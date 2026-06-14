@@ -15,7 +15,7 @@ import {
   createLinkGem,
   createMediaGem,
 } from "@/lib/actions/gems";
-import { extractDimensions, uploadGemFile } from "@/lib/storage";
+import { deleteGemFile, extractDimensions, uploadGemFile } from "@/lib/storage";
 import type { Trove, Tag } from "@/lib/queries/types";
 import { cn } from "@/lib/utils";
 
@@ -101,14 +101,19 @@ export function AddGemSheet({ mode }: { mode: Mode }) {
     if (busy) return;
     setBusy(true);
     setSaveError(null);
+    let uploadedPath: string | null = null;
     try {
       if (mode === "media") {
-        if (!file) return;
+        if (!file) {
+          setBusy(false);
+          return;
+        }
         const dims = await extractDimensions(file).catch(() => ({
           width: 800,
           height: 800,
         }));
         const uploaded = await uploadGemFile(file);
+        uploadedPath = uploaded.storage_path;
         await createMediaGem({
           trove_id: troveId,
           type: file.type.startsWith("video/") ? "video" : "image",
@@ -133,6 +138,8 @@ export function AddGemSheet({ mode }: { mode: Mode }) {
       }
       router.push(`/troves/${troveId}`);
     } catch (err) {
+      // The file uploaded but the gem row didn't save — remove the orphan.
+      if (uploadedPath) void deleteGemFile(uploadedPath);
       setSaveError(err instanceof Error ? err.message : "could not save");
       setBusy(false);
     }
@@ -465,7 +472,7 @@ function InlineNewTroveForm({
               if (canCreate) submit();
             }
           }}
-          className="w-full bg-transparent text-[15px] font-medium text-text outline-none placeholder:text-text-subtle"
+          className="w-full bg-transparent text-[16px] font-medium text-text outline-none placeholder:text-text-subtle"
         />
         <textarea
           value={description}
@@ -473,7 +480,7 @@ function InlineNewTroveForm({
           placeholder="description (optional)"
           rows={2}
           maxLength={280}
-          className="w-full resize-none bg-transparent text-[13.5px] leading-relaxed text-text outline-none placeholder:text-text-subtle"
+          className="w-full resize-none bg-transparent text-[16px] leading-relaxed text-text outline-none placeholder:text-text-subtle"
         />
         {error ? (
           <p className="text-[12.5px] text-danger">{error}</p>

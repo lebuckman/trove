@@ -237,7 +237,7 @@ function InlineNewTroveForm({
               if (canCreate) submit();
             }
           }}
-          className="w-full bg-transparent text-[15px] font-medium text-text outline-none placeholder:text-text-subtle"
+          className="w-full bg-transparent text-[16px] font-medium text-text outline-none placeholder:text-text-subtle"
         />
         <textarea
           value={description}
@@ -245,7 +245,7 @@ function InlineNewTroveForm({
           placeholder="description (optional)"
           rows={2}
           maxLength={280}
-          className="w-full resize-none bg-transparent text-[13.5px] leading-relaxed text-text outline-none placeholder:text-text-subtle"
+          className="w-full resize-none bg-transparent text-[16px] leading-relaxed text-text outline-none placeholder:text-text-subtle"
         />
         {error ? <p className="text-[12.5px] text-danger">{error}</p> : null}
         <div className="flex justify-end gap-2 pt-1">

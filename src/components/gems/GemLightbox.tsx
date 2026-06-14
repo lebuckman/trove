@@ -614,7 +614,7 @@ function DetailPanel({
         onBlur={commit}
         placeholder="add a description…"
         rows={2}
-        className="max-h-[160px] w-full resize-none overflow-y-auto bg-transparent px-0 text-[15px] leading-relaxed text-text placeholder:text-text-subtle outline-none md:max-h-none md:overflow-y-visible"
+        className="max-h-[160px] w-full resize-none overflow-y-auto bg-transparent px-0 text-[16px] leading-relaxed text-text placeholder:text-text-subtle outline-none md:max-h-none md:overflow-y-visible"
       />
 
       <div className="mt-3 flex flex-wrap gap-1.5">
