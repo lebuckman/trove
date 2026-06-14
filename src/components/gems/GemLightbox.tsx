@@ -441,7 +441,10 @@ function ChromeBar({
   );
 }
 
-// ---------- desktop hover arrows ----------
+// ---------- prev / next arrows ----------
+//
+// Always visible on touch (swipe can be finicky depending on media size);
+// on desktop they stay hidden until the media is hovered.
 
 function HoverArrow({
   side,
@@ -459,9 +462,9 @@ function HoverArrow({
       onClick={onClick}
       aria-label={side === "left" ? "Previous gem" : "Next gem"}
       className={cn(
-        "absolute top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-surface/85 text-text opacity-0 backdrop-blur transition-opacity duration-150 md:flex",
-        "group-hover/media:opacity-100 hover:!opacity-100",
-        side === "left" ? "left-4" : "right-4",
+        "absolute top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-surface/85 text-text backdrop-blur transition-opacity duration-150",
+        "md:opacity-0 md:group-hover/media:opacity-100 md:hover:!opacity-100",
+        side === "left" ? "left-3 md:left-4" : "right-3 md:right-4",
       )}
     >
       <svg
