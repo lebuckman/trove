@@ -58,23 +58,29 @@ export function PageHeader({
       ) : null}
 
       <div className="flex items-start justify-between gap-3">
-        <div className="flex min-w-0 items-center gap-3">
+        {/* items-start keeps the title pinned to the top so its position
+            stays identical across pages even when a tall avatar leads it.
+            The subtitle lives in this column so it aligns under the title
+            (beside the avatar), not under the avatar itself. */}
+        <div className="flex min-w-0 items-start gap-4">
           {leading}
-          <div className="flex min-w-0 items-center gap-2">
-            <h1 className="min-w-0 truncate pb-1 text-[34px] font-bold leading-[1.2] tracking-tight lowercase lg:text-[44px] xl:text-[50px]">
-              {title}
-            </h1>
-            {titleAction}
+          <div className="min-w-0">
+            <div className="flex min-w-0 items-center gap-2">
+              <h1 className="min-w-0 truncate pb-1 text-[34px] font-bold leading-[1.2] tracking-tight lowercase lg:text-[44px] xl:text-[50px]">
+                {title}
+              </h1>
+              {titleAction}
+            </div>
+            {subtitle ? (
+              <p className="-mt-0.5 text-[14px] lowercase text-text-muted lg:text-[16px]">
+                {subtitle}
+              </p>
+            ) : null}
           </div>
         </div>
         {inlineAction ? <div className="shrink-0 pt-1.5">{inlineAction}</div> : null}
       </div>
 
-      {subtitle ? (
-        <p className="mt-1.5 text-[14px] lowercase text-text-muted lg:text-[16px]">
-          {subtitle}
-        </p>
-      ) : null}
       {description ? (
         <p className="mt-2.5 max-w-prose text-[15px] leading-relaxed text-text-muted lg:text-[17px]">
           {description}

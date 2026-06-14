@@ -68,8 +68,8 @@ export default async function ProfilePage() {
 function Avatar({ url }: { url: string | null }) {
   if (!url) {
     return (
-      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-accent-soft text-accent-strong lg:h-14 lg:w-14">
-        <svg viewBox="0 0 24 24" className="h-6 w-6 lg:h-7 lg:w-7" fill="none" stroke="currentColor" strokeWidth={1.7} strokeLinecap="round" strokeLinejoin="round">
+      <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-accent-soft text-accent-strong lg:h-[72px] lg:w-[72px]">
+        <svg viewBox="0 0 24 24" className="h-8 w-8 lg:h-9 lg:w-9" fill="none" stroke="currentColor" strokeWidth={1.7} strokeLinecap="round" strokeLinejoin="round">
           <circle cx="12" cy="8" r="4" />
           <path d="M4.5 20.5c1.5-3.4 4.2-5 7.5-5s6 1.6 7.5 5" />
         </svg>
@@ -77,8 +77,8 @@ function Avatar({ url }: { url: string | null }) {
     );
   }
   return (
-    <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full border border-border-strong lg:h-14 lg:w-14">
-      <Image src={url} alt="" fill sizes="56px" className="object-cover" />
+    <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full border border-border-strong lg:h-[72px] lg:w-[72px]">
+      <Image src={url} alt="" fill sizes="72px" className="object-cover" />
     </div>
   );
 }

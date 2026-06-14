@@ -10,7 +10,7 @@ export function ProfileShellPreview({ troves }: { troves: Trove[] }) {
         title="liam buckman"
         subtitle={`${troves.length} troves · 24 gems`}
         leading={
-          <div className="h-12 w-12 shrink-0 rounded-full bg-accent-soft lg:h-14 lg:w-14" />
+          <div className="h-16 w-16 shrink-0 rounded-full bg-accent-soft lg:h-[72px] lg:w-[72px]" />
         }
         titleAction={
           <span className="flex h-7 w-7 items-center justify-center rounded-full text-text-subtle">
