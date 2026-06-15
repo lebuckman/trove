@@ -49,9 +49,10 @@ Reads are Server Components calling `lib/queries`; writes are Server Actions in 
 
 ## Conventions
 
+- `main` is protected and isn't pushed to directly. Branch off it for each change and open a PR.
 - Conventional commits with a scope when it helps (`feat(lightbox): …`, `fix(rls): …`). Brief subjects; body only when something non-obvious needs explaining.
-- Linear history on `main`.
-- Run `npm run lint` and a type-check before pushing.
+- Keep history linear: squash or rebase-merge, no merge commits.
+- CI (lint, type-check, build) runs on every PR and must pass before merge. Run `npm run lint` and `npx tsc --noEmit` locally first.
 - A few patterns look odd on purpose: the lightbox's stable key and axis-locked drag, the stat count-up that starts at 0 on the client. Check the comment next to one before "fixing" it.
 
 ## Deploying

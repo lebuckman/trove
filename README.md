@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-0.1.0-17b3a3" alt="Version" />
+  <img src="https://img.shields.io/github/package-json/v/lebuckman/trove?color=17b3a3&label=version" alt="Version" />
   <img src="https://img.shields.io/badge/platform-web%20(PWA)-0d0c0a" alt="Platform" />
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-0d0c0a" alt="License" /></a>
 </p>
